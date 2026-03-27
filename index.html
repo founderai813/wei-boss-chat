@@ -27,8 +27,8 @@
     .msg-av{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;align-self:flex-end}
     .msg-row.boss .msg-av{background:linear-gradient(135deg,var(--gold),var(--gold-dim))}
     .msg-row.user .msg-av{background:var(--surface2);border:1px solid var(--border)}
-    .bubble{max-width:min(72%,480px);padding:13px 17px;border-radius:var(--radius);font-size:14.5px;line-height:1.75}
-    .msg-row.boss .bubble{background:#1e1a16;border:1px solid var(--border);border-bottom-left-radius:10px}
+    .bubble{max-width:min(72%,480px);padding:13px 17px;border-radius:var(--radius);font-size:15px;line-height:1.85}
+    .msg-row.boss .bubble{background:#1e1a16;border:1px solid var(--border);border-bottom-left-radius:10px;color:var(--text)}
     .msg-row.user .bubble{background:linear-gradient(135deg,#3a2a10,#2a1f12);border:1px solid var(--gold-dim);border-bottom-right-radius:10px;color:var(--gold-light)}
     .ts{font-size:11px;color:var(--text-muted);margin-top:5px;padding:0 4px}
     .msg-row.user .ts{text-align:right}
@@ -80,7 +80,7 @@
 var msgs = document.getElementById('messages');
 var inp = document.getElementById('inp');
 var sb = document.getElementById('sb');
-var history = [];
+var chatHistory = [];
 
 function getTime() {
   return new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
@@ -107,60 +107,3 @@ function removeTyping() {
   var tr=document.getElementById('tr');
   if(tr)tr.remove();
 }
-
-function send() {
-  var text=inp.value.trim();
-  if(!text||sb.disabled)return;
-  inp.value='';inp.style.height='auto';
-  sb.disabled=true;
-  var wc=document.getElementById('wc');
-  if(wc)wc.remove();
-  addMsg('user',text);
-  history.push({role:'user',content:text});
-  showTyping();
-  fetch('/api/chat',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({messages:history})
-  })
-  .then(function(r){return r.json();})
-  .then(function(data){
-    removeTyping();
-    if(data.reply){
-      addMsg('assistant',data.reply);
-      history.push({role:'assistant',content:data.reply});
-    } else {
-      addMsg('assistant','*嘆氣* 出了點問題，再試一次啦。');
-      history.pop();
-    }
-    sb.disabled=false;
-    inp.focus();
-  })
-  .catch(function(){
-    removeTyping();
-    addMsg('assistant','*翻白眼* 網路出問題啦，再試一次！');
-    history.pop();
-    sb.disabled=false;
-  });
-}
-
-document.querySelectorAll('.chip').forEach(function(c){
-  c.addEventListener('click',function(){
-    inp.value=c.textContent.trim().replace(/^[^\u4e00-\u9fff]+/,'');
-    send();
-  });
-});
-
-sb.addEventListener('click',send);
-
-inp.addEventListener('keydown',function(e){
-  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}
-});
-
-inp.addEventListener('input',function(){
-  inp.style.height='auto';
-  inp.style.height=Math.min(inp.scrollHeight,130)+'px';
-});
-</script>
-</body>
-</html>
