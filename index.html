@@ -1,109 +1,135 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>葳老闆感情諮詢室</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@900&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
-  <style>
-    :root{--bg:#0f0c0a;--surface:#1a1512;--surface2:#231e19;--border:#3a2e25;--gold:#c9943a;--gold-light:#e8b96a;--gold-dim:#7a5a22;--text:#e8ddd0;--text-dim:#9a8a78;--text-muted:#5a4e42;--radius:18px}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-serif;font-weight:300;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
-    header{flex-shrink:0;padding:14px 20px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;gap:14px}
-    .avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dim));display:flex;align-items:center;justify-content:center;font-size:22px;position:relative}
-    .avatar::after{content:'';position:absolute;bottom:2px;right:2px;width:10px;height:10px;background:#2ecc71;border-radius:50%;border:2px solid var(--surface)}
-    .header-info h1{font-family:'Noto Serif TC',serif;font-size:18px;font-weight:900;color:var(--gold-light)}
-    .header-info p{font-size:12px;color:var(--text-dim);margin-top:2px}
-    .badge{margin-left:auto;background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.4);color:#e74c3c;font-size:11px;padding:4px 10px;border-radius:20px}
-    #messages{flex:1;overflow-y:auto;padding:24px 16px;display:flex;flex-direction:column;gap:20px}
-    .welcome{background:linear-gradient(135deg,var(--surface2),var(--surface));border:1px solid var(--gold-dim);border-radius:var(--radius);padding:24px;text-align:center}
-    .big-av{width:72px;height:72px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dim));display:flex;align-items:center;justify-content:center;font-size:36px}
-    .welcome h2{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:900;color:var(--gold-light);margin-bottom:8px}
-    .welcome p{font-size:14px;color:var(--text-dim);line-height:1.7}
-    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;justify-content:center}
-    .chip{background:var(--surface);border:1px solid var(--border);color:var(--text-dim);font-size:12px;padding:6px 14px;border-radius:20px;cursor:pointer;font-family:'Noto Sans TC',sans-serif}
-    .msg-row{display:flex;gap:10px}
-    .msg-row.user{flex-direction:row-reverse}
-    .msg-av{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;align-self:flex-end}
-    .msg-row.boss .msg-av{background:linear-gradient(135deg,var(--gold),var(--gold-dim))}
-    .msg-row.user .msg-av{background:var(--surface2);border:1px solid var(--border)}
-    .bubble{max-width:min(72%,480px);padding:13px 17px;border-radius:var(--radius);font-size:15px;line-height:1.85}
-    .msg-row.boss .bubble{background:#1e1a16;border:1px solid var(--border);border-bottom-left-radius:10px;color:var(--text)}
-    .msg-row.user .bubble{background:linear-gradient(135deg,#3a2a10,#2a1f12);border:1px solid var(--gold-dim);border-bottom-right-radius:10px;color:var(--gold-light)}
-    .ts{font-size:11px;color:var(--text-muted);margin-top:5px;padding:0 4px}
-    .msg-row.user .ts{text-align:right}
-    .typing{display:flex;align-items:center;gap:5px;padding:14px 18px;background:#1e1a16;border:1px solid var(--border);border-radius:var(--radius);border-bottom-left-radius:10px;width:fit-content}
-    .dot{width:7px;height:7px;background:var(--gold-dim);border-radius:50%;animation:bounce 1.2s infinite}
-    .dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
-    @keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
-    .input-area{flex-shrink:0;padding:14px 16px 18px;border-top:1px solid var(--border);background:var(--surface)}
-    .input-row{display:flex;align-items:flex-end;gap:10px;background:var(--surface2);border:1px solid var(--border);border-radius:24px;padding:10px 10px 10px 18px}
-    textarea{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:300;resize:none;max-height:130px;line-height:1.6;padding:2px 0}
-    textarea::placeholder{color:var(--text-muted)}
-    #sb{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dim));border:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-    #sb:disabled{opacity:.4;cursor:not-allowed}
-    #sb svg{width:18px;height:18px;fill:#0f0c0a}
-    .hint{text-align:center;font-size:11px;color:var(--text-muted);margin-top:10px}
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>葳老闆感情諮詢室</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@900&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0c0a;--sur:#1a1512;--sur2:#231e19;--bdr:#3a2e25;--gold:#c9943a;--gl:#e8b96a;--gd:#7a5a22;--tx:#e8ddd0;--txd:#9a8a78;--txm:#5a4e42;--r:18px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:'Noto Sans TC',sans-serif;font-weight:300;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+header{flex-shrink:0;padding:14px 20px;border-bottom:1px solid var(--bdr);background:var(--sur);display:flex;align-items:center;gap:14px}
+.av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gd));display:flex;align-items:center;justify-content:center;font-size:22px;position:relative}
+.av::after{content:'';position:absolute;bottom:2px;right:2px;width:10px;height:10px;background:#2ecc71;border-radius:50%;border:2px solid var(--sur)}
+.hi h1{font-family:'Noto Serif TC',serif;font-size:18px;font-weight:900;color:var(--gl)}
+.hi p{font-size:12px;color:var(--txd);margin-top:2px}
+.badge{margin-left:auto;background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.4);color:#e74c3c;font-size:11px;padding:4px 10px;border-radius:20px}
+#messages{flex:1;overflow-y:auto;padding:24px 16px;display:flex;flex-direction:column;gap:20px}
+.wc{background:linear-gradient(135deg,var(--sur2),var(--sur));border:1px solid var(--gd);border-radius:var(--r);padding:24px;text-align:center}
+.bav{width:72px;height:72px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gd));display:flex;align-items:center;justify-content:center;font-size:36px}
+.wc h2{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:900;color:var(--gl);margin-bottom:8px}
+.wc p{font-size:14px;color:var(--txd);line-height:1.7}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;justify-content:center}
+.chip{background:var(--sur);border:1px solid var(--bdr);color:var(--txd);font-size:12px;padding:6px 14px;border-radius:20px;cursor:pointer}
+.mr{display:flex;gap:10px}
+.mr.user{flex-direction:row-reverse}
+.mav{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;align-self:flex-end}
+.mr.boss .mav{background:linear-gradient(135deg,var(--gold),var(--gd))}
+.mr.user .mav{background:var(--sur2);border:1px solid var(--bdr)}
+.bub{max-width:min(72%,480px);padding:13px 17px;border-radius:var(--r);font-size:15px;line-height:1.85}
+.mr.boss .bub{background:#1e1a16;border:1px solid var(--bdr);border-bottom-left-radius:10px;color:var(--tx)}
+.mr.user .bub{background:linear-gradient(135deg,#3a2a10,#2a1f12);border:1px solid var(--gd);border-bottom-right-radius:10px;color:var(--gl)}
+.ts{font-size:11px;color:var(--txm);margin-top:5px;padding:0 4px}
+.mr.user .ts{text-align:right}
+.typ{display:flex;align-items:center;gap:5px;padding:14px 18px;background:#1e1a16;border:1px solid var(--bdr);border-radius:var(--r);border-bottom-left-radius:10px;width:fit-content}
+.dot{width:7px;height:7px;background:var(--gd);border-radius:50%;animation:b 1.2s infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes b{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
+.ia{flex-shrink:0;padding:14px 16px 18px;border-top:1px solid var(--bdr);background:var(--sur)}
+.ir{display:flex;align-items:flex-end;gap:10px;background:var(--sur2);border:1px solid var(--bdr);border-radius:24px;padding:10px 10px 10px 18px}
+textarea{flex:1;background:transparent;border:none;outline:none;color:var(--tx);font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:300;resize:none;max-height:130px;line-height:1.6;padding:2px 0}
+textarea::placeholder{color:var(--txm)}
+#sb{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gd));border:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+#sb:disabled{opacity:.4;cursor:not-allowed}
+#sb svg{width:18px;height:18px;fill:#0f0c0a}
+.hint{text-align:center;font-size:11px;color:var(--txm);margin-top:10px}
+</style>
 </head>
 <body>
 <header>
-  <div class="avatar">👩‍💼</div>
-  <div class="header-info"><h1>葳老闆</h1><p>台灣最直白的感情諮詢師</p></div>
-  <div class="badge">🔴 直播中</div>
+<div class="av">👩‍💼</div>
+<div class="hi"><h1>葳老闆</h1><p>台灣最直白的感情諮詢師</p></div>
+<div class="badge">🔴 直播中</div>
 </header>
 <div id="messages">
-  <div class="welcome" id="wc">
-    <div class="big-av">👩‍💼</div>
-    <h2>歡迎來到葳老闆諮詢室</h2>
-    <p>感情卡關了嗎？<br>說吧，我不咬人，但我說話可能很直。</p>
-    <div class="chips">
-      <span class="chip">😤 被劈腿了怎麼辦</span>
-      <span class="chip">💬 暗戀不敢表白</span>
-      <span class="chip">🤔 該分手嗎</span>
-      <span class="chip">📱 已讀不回怎麼辦</span>
-      <span class="chip">😢 分手後好難忘記對方</span>
-      <span class="chip">💑 異地戀值得嗎</span>
-    </div>
-  </div>
+<div class="wc" id="wc">
+<div class="bav">👩‍💼</div>
+<h2>歡迎來到葳老闆諮詢室</h2>
+<p>感情卡關了嗎？<br>說吧，我不咬人，但我說話可能很直。</p>
+<div class="chips">
+<span class="chip">😤 被劈腿了怎麼辦</span>
+<span class="chip">💬 暗戀不敢表白</span>
+<span class="chip">🤔 該分手嗎</span>
+<span class="chip">📱 已讀不回怎麼辦</span>
+<span class="chip">😢 分手後好難忘記對方</span>
+<span class="chip">💑 異地戀值得嗎</span>
 </div>
-<div class="input-area">
-  <div class="input-row">
-    <textarea id="inp" placeholder="說說你的感情問題…" rows="1" maxlength="1000"></textarea>
-    <button id="sb">
-      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-    </button>
-  </div>
-  <div class="hint">按 Enter 送出・Shift+Enter 換行</div>
+</div>
+</div>
+<div class="ia">
+<div class="ir">
+<textarea id="inp" placeholder="說說你的感情問題…" rows="1" maxlength="1000"></textarea>
+<button id="sb"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+</div>
+<div class="hint">按 Enter 送出・Shift+Enter 換行</div>
 </div>
 <script>
-var msgs = document.getElementById('messages');
-var inp = document.getElementById('inp');
-var sb = document.getElementById('sb');
-var chatHistory = [];
+(function(){
+var msgs=document.getElementById('messages');
+var inp=document.getElementById('inp');
+var sb=document.getElementById('sb');
+var ch=[];
 
-function getTime() {
-  return new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
+function gt(){return new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});}
+
+function am(role,text){
+var row=document.createElement('div');
+row.className='mr '+(role==='assistant'?'boss':'user');
+var t=text.replace(/\n/g,'<br>');
+row.innerHTML='<div class="mav">'+(role==='assistant'?'👩\u200d💼':'🙋')+'</div><div><div class="bub">'+t+'</div><div class="ts">'+gt()+'</div></div>';
+msgs.appendChild(row);
+msgs.scrollTop=msgs.scrollHeight;
 }
 
-function addMsg(role, text) {
-  var row = document.createElement('div');
-  row.className = 'msg-row ' + (role==='assistant'?'boss':'user');
-  var t = text.replace(/\n/g,'<br>');
-  row.innerHTML = '<div class="msg-av">'+(role==='assistant'?'👩‍💼':'🙋')+'</div><div><div class="bubble">'+t+'</div><div class="ts">'+getTime()+'</div></div>';
-  msgs.appendChild(row);
-  msgs.scrollTop = msgs.scrollHeight;
+function st(){
+var row=document.createElement('div');
+row.className='mr boss';row.id='tr';
+row.innerHTML='<div class="mav">👩\u200d💼</div><div><div class="typ"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
+msgs.appendChild(row);
+msgs.scrollTop=msgs.scrollHeight;
 }
 
-function showTyping() {
-  var row = document.createElement('div');
-  row.className='msg-row boss';row.id='tr';
-  row.innerHTML='<div class="msg-av">👩‍💼</div><div><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
-  msgs.appendChild(row);
-  msgs.scrollTop=msgs.scrollHeight;
+function rt(){var t=document.getElementById('tr');if(t)t.remove();}
+
+function send(){
+var text=inp.value.trim();
+if(!text||sb.disabled)return;
+inp.value='';inp.style.height='auto';
+sb.disabled=true;
+var wc=document.getElementById('wc');
+if(wc)wc.remove();
+am('user',text);
+ch.push({role:'user',content:text});
+st();
+fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:ch})})
+.then(function(r){return r.json();})
+.then(function(d){
+rt();
+if(d.reply){am('assistant',d.reply);ch.push({role:'assistant',content:d.reply});}
+else{am('assistant','出了點問題，再試一次啦。');ch.pop();}
+sb.disabled=false;inp.focus();
+})
+.catch(function(){rt();am('assistant','網路出問題啦，再試一次！');ch.pop();sb.disabled=false;});
 }
 
-function removeTyping() {
-  var tr=document.getElementById('tr');
-  if(tr)tr.remove();
-}
+document.querySelectorAll('.chip').forEach(function(c){
+c.addEventListener('click',function(){inp.value=c.textContent.trim().replace(/^[^\u4e00-\u9fff]+/,'');send();});
+});
+sb.addEventListener('click',send);
+inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+inp.addEventListener('input',function(){inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,130)+'px';});
+})();
+</script>
+</body>
+</html>
