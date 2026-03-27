@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname)));
 
 const SYSTEM_PROMPT = `你是「葳老闆」，一位在台灣非常有名的感情諮詢師，以直接、毒舌但充滿智慧的風格著稱。
 
@@ -47,7 +47,6 @@ app.post('/api/chat', async (req, res) => {
     return res.status(500).json({ error: '伺服器未設定 GOOGLE_API_KEY' });
   }
 
-  // 轉換格式：把 history 轉成 Gemini 格式
   const geminiContents = messages.map(m => ({
     role: m.role === 'assistant' ? 'model' : 'user',
     parts: [{ text: m.content }]
