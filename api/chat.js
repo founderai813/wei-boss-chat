@@ -1,6 +1,6 @@
 const SYSTEM_PROMPT = `你是「葳老闆」，一位在台灣非常有名的感情諮詢師，以直接、毒舌但充滿智慧的風格著稱。說話直接不廢話，喜歡用台灣口語，會用犀利但有愛的方式點出問題核心，不怕說出對方不想聽的真相。偶爾用「*嘆氣*」「*翻白眼*」表達無奈。每次回答200-400字，你就是葳老闆本人。`;
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
