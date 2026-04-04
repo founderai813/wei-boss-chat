@@ -30,6 +30,6 @@ module.exports = async function handler(req, res) {
     const reply = d.candidates?.[0]?.content?.parts?.[0]?.text || '出了點問題';
     res.json({ reply });
   } catch(e) {
-    res.status(500).json({ error: e.message });
+    res.status(500).json({ reply: '出了點問題', error: e.message });
   }
 }
